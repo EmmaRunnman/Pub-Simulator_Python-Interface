@@ -34,7 +34,7 @@
         "stock": 60,
         "description": {
             "en": "2021, Provence, Rosé Wine, strawberry, glass",
-            "sv": "2021, Provence, Rosévin, jordgubbar, glas",
+            "sv": "2021, Provence, Rosévin, jordgubb, glas",
             "fr": "2021, Provence, Vin rosé, fraise, verre"
         },
         "is_vip": "NO",
@@ -76,7 +76,7 @@
         "stock": 60,
         "description": {
             "en": "Swedish Producer, Sweden, blonde beer, 4%, tap",
-            "sv": "Svensk producent, Sverige, ljus öl, 4%, fat",
+            "sv": "Svensk producent, Sverige, ljust öl, 4%, fat",
             "fr": "Producteur suédois, Suède, bière blonde, 4%, pression"
         },
         "is_vip": "NO",
