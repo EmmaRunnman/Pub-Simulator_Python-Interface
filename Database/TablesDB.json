@@ -2,7 +2,7 @@
     {
         "table_id": 1,
         "number_of_seats": 4,
-        "status": "free",
+        "status": "reserved",
         "order_list": [],
         "product_list": [],
         "customer_list": []
