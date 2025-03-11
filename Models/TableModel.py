@@ -1,20 +1,20 @@
 #declare table object id, number of seats, order list, status(reserved, free), ( list of products), customer list
 #etc.
-import json
 import os
 
-TABLE_FILE = "database/TableDB.json"
+import json
+
+TABLE_FILE = "Database/TablesDB.json"
 
 class Table:
     def __init__(self, table_id, number_of_seats, status="free", order_list=None, product_list=None, customer_list=None):
-        self.table_id = table_id #identifier for the table.
-        self.number_of_seats = number_of_seats #Number of seats available at the table.
-        self.status = status  # "reserved", "free" or "taken".
-        self.order_list = order_list if order_list is not None else [] #List of orders placed at the table.
-        self.product_list = product_list if product_list is not None else [] #List of products associated with the table? Is this needed?
-        self.customer_list = customer_list if customer_list is not None else [] #List of customers sitting at the table.
+        self.table_id = table_id
+        self.number_of_seats = number_of_seats
+        self.status = status
+        self.order_list = order_list if order_list is not None else []
+        self.product_list = product_list if product_list is not None else []
+        self.customer_list = customer_list if customer_list is not None else []
 
-#Do we need to converts a Table object into the dictionary?
     def to_dict(self):
         return {
             "table_id": self.table_id,
@@ -37,68 +37,34 @@ class Table:
         )
 
 class TableModel:
-    def __init__(self, db_file="TablesDB.json"):
-        self.db_file = db_file
-        self.tables = self.load_tables()
+    def __init__(self):
+        self.tables = []
+        self.load_tables()
 
     def load_tables(self):
         try:
-            with open(self.db_file, "r", encoding="utf-8") as file:
-                tables = json.load(file)
-                return tables
+            with open(TABLE_FILE, "r") as file:
+                data = json.load(file)
+                self.tables = [Table.from_dict(table) for table in data]
         except FileNotFoundError:
-            return []
+            print("Table database not found.")
         except json.JSONDecodeError:
-            return []
+            print("Error decoding table database JSON.")
 
     def save_tables(self):
-        try:
-            with open(self.db_file, "w", encoding="utf-8") as file:
-                json.dump(self.tables, file, indent=4)
-        except Exception as e:
-            print(f" Error saving tables: {e}")
+        with open(TABLE_FILE, "w") as file:
+            json.dump([table.to_dict() for table in self.tables], file, indent=4)
 
-
-    def get_table_by_id(self, table_id):
-        return next((table for table in self.tables if table.table_id == table_id), None)
+    def get_tables(self):
+        return [table.to_dict() for table in self.tables]
 
     def update_table_status(self, table_id, new_status):
-        table = self.get_table_by_id(table_id)
+        table = next((table for table in self.tables if table.table_id == table_id), None)
         if table:
             table.status = new_status
             self.save_tables()
             return True
         return False
-
-    def add_order_to_table(self, table_id, order):
-        table = self.get_table_by_id(table_id)
-        if table:
-            table.order_list.append(order)
-            self.save_tables()
-            return True
-        return False
-
-    def add_customer_to_table(self, table_id, customer): #Add customer to table if there are enough seats
-        table = self.get_table_by_id(table_id)
-
-        if table:
-            max_seats = table["number_of_seats"]
-            current_customers = len(table["customer_list"])
-
-            if current_customers < max_seats:
-                table["customer_list"].append(customer)
-                self.save_tables()
-                return f"{customer} has been added to table {table_id}."
-            else:
-                return f"There are no more seats available at table {table_id}."
-        else:
-            return f"Table {table_id} not found."
-
-#test
-if __name__ == "__main__":
-    table_model = TableModel()
-    print("Loaded tables:", table_model.tables)
-    table_model.save_tables()
 
 #VIP -> pay at the table, for normal customer 
 #Button on the table "Go to the bar" -> Log in as a Bartender and "Check Out that table" 
