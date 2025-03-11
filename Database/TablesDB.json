@@ -2,7 +2,7 @@
     {
         "table_id": 1,
         "number_of_seats": 4,
-        "status": "reserved",
+        "status": "occupied",
         "order_list": [],
         "product_list": [],
         "customer_list": []
@@ -15,14 +15,8 @@
             101,
             102
         ],
-        "product_list": [
-            300,
-            301
-        ],
-        "customer_list": [
-            "Alice",
-            "Bob"
-        ]
+        "product_list": [],
+        "customer_list": []
     },
     {
         "table_id": 3,
@@ -35,7 +29,7 @@
     {
         "table_id": 4,
         "number_of_seats": 8,
-        "status": "free",
+        "status": "reserved",
         "order_list": [
             103
         ],
